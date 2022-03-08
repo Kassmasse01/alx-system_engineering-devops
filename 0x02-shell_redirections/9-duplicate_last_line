@@ -1,0 +1,5 @@
+#!/bin/bash
+awk '
+        tail -n 1 { print; next; }
+        { print; print; }
+' iacta
