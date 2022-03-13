@@ -1,2 +1,2 @@
 #!/bin/bash
-alias ls="whoami"
+alias hello="echo Hello Boudhayan!! How are you?"
