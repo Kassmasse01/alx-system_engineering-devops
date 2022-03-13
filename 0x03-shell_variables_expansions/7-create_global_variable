@@ -1,2 +1,2 @@
 #!/bin/bash
-echo BEST=School
+setenv SHELL 6-create_local_variable
