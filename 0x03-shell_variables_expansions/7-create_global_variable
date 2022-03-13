@@ -1,2 +1,2 @@
 #!/bin/bash
-setenv SHELL 6-create_local_variable
+export BEST=School
