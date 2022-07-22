@@ -5,10 +5,6 @@ NAME="Best School"
 count=1
 while [ $count -le 10 ]
 do
-    echo "$NAME"
-    if [ $count -eq 9 ]
-    then
-	echo "Hi"
-    fi
-    ((count++))
+	echo "$NAME"
+	((count++))
 done
