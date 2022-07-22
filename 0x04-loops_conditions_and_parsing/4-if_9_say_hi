@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-# loop 10 times, prints, on 9th loop says hi
+# displays Holberton School 10 times.
 
-i=10
-
-while [ $i -gt 0 ];do
-    echo "Holberton School"
-    if [ $i = 2 ]; then
+COUNTER=0
+while [ $COUNTER -lt 11 ]
+do
+    if [ $COUNTER = 9 ]
+    then
         echo "Hi"
+    else
+        echo "Holberton School"
     fi
-    let i-=1
+    let COUNTER+=1
 done
