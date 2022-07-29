@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-# this script will show all IPv4 IPs on the machine
-ifconfig | grep "inet addr:" | cut -c21-29
+#
+# Show all active IPv4 IP's on the current machine 
+
+ip addr | grep -oP '(?<=\binet )\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
