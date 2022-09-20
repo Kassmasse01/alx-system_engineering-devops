@@ -1,11 +1,40 @@
 #!/usr/bin/env bash
-# Bash script containing commands to automatically configure a Ubuntu machine to
-# configure a Nginx server so that /redirect_me is redirecting to another page
-# Also adds custom 404 page
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-echo "Holberton School" | sudo tee /var/www/html/index.nginx-debian.html
-echo -e "Ceci n'est pas une page\n" | sudo tee /usr/share/nginx/html/custom_404.html
-sudo sed -i "/listen \[\:\:\]\:80 default_server;/a rewrite ^/redirect_me https://www.youtube.com permanent;\n\n error_page 404 /custom_404.html;\nlocation = /custom_404.html { root /usr/share/nginx/html; internal; }\n\n" /etc/nginx/sites-available/default
-sudo service nginx start
+# Installs, configures, and starts the server
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html /var/www/error
+chmod -R 755 /var/www
+echo 'Hello World!' > /var/www/html/index.html
+echo -e "Ceci n\x27est pas une page" > /var/www/error/404.html
+# the server's configuration
+SERVER_CONFIG=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+
+	if (\$request_filename ~ redirect_me){
+		rewrite ^ https://sketchfab.com/bluepeno/models permanent;
+	}
+
+	error_page 404 /404.html;
+	location = /404.html {
+		root /var/www/error/;
+		internal;
+	}
+}"
+bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	service nginx start
+else
+	service nginx restart
+fi
